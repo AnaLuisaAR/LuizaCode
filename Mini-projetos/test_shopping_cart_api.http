@@ -18,6 +18,21 @@ content-type: application/json
 GET http://127.0.0.1:8000/usuario?id=1 HTTP/1.1
 content-type: application/json
 
+#######################################
+# Pegar usuário por nome
+GET http://127.0.0.1:8000/usuario/nome?nome=teste HTTP/1.1
+content-type: application/json
+
+#######################################
+# Deletar usuário
+DELETE http://127.0.0.1:8000/usuario?id=1 HTTP/1.1
+content-type: application/json
+
+#######################################
+# Pegar emails de mesmo dominio
+GET http://127.0.0.1:8000/usuarios/emails?dominio=gmail.com HTTP/1.1
+content-type: application/json
+
 
 #######################################
 ############  endereço  ###############
@@ -28,11 +43,24 @@ POST http://127.0.0.1:8000/endereco/1 HTTP/1.1
 content-type: application/json
 
 {
+    "id_endereco": 1,
     "rua": "Rua Ladrilhada",
-    "cep": "99999-999",
+    "cep": "99999-998",
     "cidade": "São Paulo",
     "estado": "SP"
 }
+
+#######################################
+# Pegar enderço do usuario
+GET http://127.0.0.1:8000/usuario/1/endereços HTTP/1.1
+content-type: application/json
+
+
+#######################################
+# Deletar endereço
+DELETE http://127.0.0.1:8000/endereco/1 HTTP/1.1
+content-type: application/json
+
 
 #######################################
 ############  produto  ################
@@ -48,3 +76,24 @@ content-type: application/json
     "descricao": "Doce gelado",
     "preco": 9.99
 }
+
+
+#######################################
+# Colocar produto no carrinho
+POST http://127.0.0.1:8000/carrinho/1/1/ HTTP/1.1
+
+
+#######################################
+# Pegar carrinho
+GET http://127.0.0.1:8000/carrinho/1/ HTTP/1.1
+
+
+#######################################
+# Deletar carrinho
+DELETE http://127.0.0.1:8000/carrinho/1/ HTTP/1.1
+
+
+#######################################
+############  Site  ################
+#######################################
+POST http://127.0.0.1:8000/
