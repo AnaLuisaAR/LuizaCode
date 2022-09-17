@@ -295,9 +295,6 @@ db.createCollection('wishlist');
     db.products.aggregate(
         [
             {
-                $match:{ "client_id": 100}
-            }
-            {
                 $group: {
                     '_id': {},
                     'min_price': {$min: '$price'}, 
@@ -306,31 +303,27 @@ db.createCollection('wishlist');
                     'avg_price': {$avg: '$price'},
                     'total_quantity': {$sum: '$quantity'}
                 }
+            },
+            { 
+                $sort: {_id:1}
             }
         ]
     );
 
-
-
-
-
-    // analisar os clientes que colocaram o produto 101
-    // em 1 lista de
     use('luiza_code');
-    db.wishlists.find()
-
+    db.wishlist.find()
 
     use('luiza_code');
-    db.wishlists.aggregate(
+    db.wishlist.aggregate(
         [
             { //filter
                 $match:{'id_products': 101}
             },
             {
                 $group: {'_id':
-                    {
-                        'client_id': '$client_id'          
-                    }
+                {
+                    'client_id': '$client_id'          
+                }
                 },
             },
             { 
@@ -341,27 +334,19 @@ db.createCollection('wishlist');
 
     //relacionamento entre coleções
     use('luiza_code');
-    db.wishlists.aggregate([
-        {
-            $lookup: {
-                from: "clients",
-                localField: "client_id",
-                foreignField: "_id",
-                as: "client"
-            }
-        },
-        {
-            $project: {
-                _id: 0,
-                name: 1,
-                id_products: 1,
-                "client.name": 1
+    db.wishlist.aggregate([
+            {
+                $lookup: {
+                    from: "clients",
+                    localField: "client_id",
+                    foreignField: "_id",
+                    as: "client"
             }
         }
     ]).pretty();
 
     use('luiza_code');
-    db.wishlists.aggregate([
+    db.wishlist.aggregate([
         {
             $lookup: {
                 from: "products",
@@ -374,11 +359,11 @@ db.createCollection('wishlist');
 
 
     use('luiza_code');
-    db.products.find({}).count();
+    db.products.count();
 
 
     use('luiza_code');
-    db.wishlists.distinct('client_id');
+    db.wishlist.distinct('client_id');
 
 
 
